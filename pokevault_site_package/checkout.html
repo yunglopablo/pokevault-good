@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checkout - The Poké Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+body { font-family:'Inter',sans-serif; background:#111; color:#f5f5f5; padding:2rem; text-align:center; }
+.checkout-box { background:#1a1a1a; padding:2rem; border-radius:12px; max-width:400px; margin:2rem auto; box-shadow:0 0 10px rgba(0,0,0,0.5); }
+.checkout-box h2 { margin-bottom:1rem; }
+.btc-address { font-family:monospace; word-break:break-all; color:#f5c518; margin:1rem 0; }
+.qr { margin:1rem 0; }
+.note { font-size:0.9rem; color:#ccc; }
+</style>
+</head>
+<body>
+<div class="checkout-box">
+<h2 id="product-name">Product</h2>
+<p id="price"></p>
+<h3>Send payment to:</h3>
+<div class="btc-address">bc1q3vkxu28nx7zcgk0yeke8nzrw87wrfvgwz6gk36</div>
+<div class="qr"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bitcoin:bc1q3vkxu28nx7zcgk0yeke8nzrw87wrfvgwz6gk36" alt="QR Code"></div>
+<p class="note">Once payment is sent, please email proof & shipping info to <strong>thepokevault@gmail.com</strong></p>
+<p><a href="thankyou.html" style="color:#f5c518;text-decoration:none;">I’ve sent the payment</a></p>
+</div>
+<script>
+const urlParams=new URLSearchParams(window.location.search);
+const product=urlParams.get('product'); const price=urlParams.get('price');
+document.getElementById('product-name').textContent=product||'Product';
+document.getElementById('price').textContent=price?`$${price} CAD / BTC`:'';
+</script>
+</body></html>
