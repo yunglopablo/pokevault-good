@@ -13,10 +13,27 @@
       padding: 2rem;
       text-align: center;
     }
-    h1 {
-      color: #f5c518;
-      margin-bottom: 1rem;
+    h1 { color: #f5c518; margin-bottom: 1rem; }
+    .toggle {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem auto;
     }
+    .toggle button {
+      background: #222;
+      color: #f5f5f5;
+      border: 2px solid #f5c518;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .toggle button.active {
+      background: #f5c518;
+      color: #111;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
     .details, .form {
       margin: 2rem auto;
       max-width: 500px;
@@ -70,35 +87,53 @@
 <body>
   <h1>Complete Your Purchase</h1>
 
-  <div class="details">
-    <p><strong>Item:</strong> <span id="product-name"></span></p>
-    <p><strong>Price:</strong> $<span id="cad-price"></span> CAD ≈ <span id="btc-price">...</span> BTC</p>
-
-    <div class="btc-address" id="btc-address">bc1q3vkxu28nx7zcgk0yeke8nzrw87wrfvgwz6gk36</div>
-    <button class="copy-btn" onclick="copyAddress()">Copy BTC Address</button>
-
-    <img id="qr-code" class="qr" src="" alt="BTC QR Code" />
+  <div class="toggle">
+    <button id="btc-tab" class="active" onclick="showTab('btc')">Pay with Bitcoin</button>
+    <button id="paypal-tab" onclick="showTab('paypal')">Pay with PayPal</button>
   </div>
 
-  <div class="form">
-    <h2>Shipping Details</h2>
-    <form action="thankyou.html" method="GET">
-      <input type="text" name="name" placeholder="Your Name" required />
-      <input type="text" name="address" placeholder="Shipping Address" required />
-      <input type="email" name="email" placeholder="Email Address" required />
-      <input type="text" name="txid" placeholder="Transaction ID (optional)" />
-      <textarea name="notes" placeholder="Any special instructions..."></textarea>
-      <button class="submit-btn" type="submit">I’ve Sent the Payment</button>
-    </form>
+  <div id="btc" class="section active">
+    <div class="details">
+      <p><strong>Item:</strong> <span id="product-name"></span></p>
+      <p><strong>Price:</strong> $<span id="cad-price"></span> CAD ≈ <span id="btc-price">...</span> BTC</p>
+      <div class="btc-address" id="btc-address">bc1q3vkxu28nx7zcgk0yeke8nzrw87wrfvgwz6gk36</div>
+      <button class="copy-btn" onclick="copyAddress()">Copy BTC Address</button>
+      <img id="qr-code" class="qr" src="" alt="BTC QR Code" />
+    </div>
+
+    <div class="form">
+      <h2>Shipping Details</h2>
+      <form action="thankyou.html" method="GET">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="text" name="address" placeholder="Shipping Address" required />
+        <input type="email" name="email" placeholder="Email Address" required />
+        <input type="text" name="txid" placeholder="Transaction ID (optional)" />
+        <textarea name="notes" placeholder="Any special instructions..."></textarea>
+        <button class="submit-btn" type="submit">I’ve Sent the Payment</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="paypal" class="section">
+    <div class="details">
+      <p><strong>Item:</strong> <span id="paypal-product"></span></p>
+      <p><strong>Price:</strong> $<span id="paypal-price"></span> CAD</p>
+      <a id="paypal-link" href="#" target="_blank">
+        <button class="submit-btn">Pay with PayPal</button>
+      </a>
+    </div>
   </div>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const product = urlParams.get("product") || "Mystery Product";
+    const product = urlParams.get("product") || "";
     const price = parseFloat(urlParams.get("price")) || 120;
 
     document.getElementById("product-name").textContent = product;
     document.getElementById("cad-price").textContent = price.toFixed(2);
+    document.getElementById("paypal-product").textContent = product;
+    document.getElementById("paypal-price").textContent = price.toFixed(2);
+    document.getElementById("paypal-link").href = `https://paypal.me/ThePokevaultbtc/${price.toFixed(2)}`;
 
     fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=cad")
       .then(res => res.json())
@@ -106,7 +141,6 @@
         const btcRate = data.bitcoin.cad;
         const btcAmount = price / btcRate;
         document.getElementById("btc-price").textContent = btcAmount.toFixed(8);
-
         const btcAddress = document.getElementById("btc-address").textContent;
         const uri = `bitcoin:${btcAddress}?amount=${btcAmount.toFixed(8)}`;
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(uri)}`;
@@ -118,6 +152,15 @@
       navigator.clipboard.writeText(text).then(() => {
         alert("BTC address copied to clipboard!");
       });
+    }
+
+    function showTab(type) {
+      document.getElementById("btc").classList.remove("active");
+      document.getElementById("paypal").classList.remove("active");
+      document.getElementById("btc-tab").classList.remove("active");
+      document.getElementById("paypal-tab").classList.remove("active");
+      document.getElementById(type).classList.add("active");
+      document.getElementById(`${type}-tab`).classList.add("active");
     }
   </script>
 </body>
