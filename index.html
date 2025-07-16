@@ -10,6 +10,7 @@
     header { background: #1a1a1a; padding:1rem 2rem; display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid #f5c518; }
     header img.logo { height:50px; }
     header nav a { color:#f5c518; text-decoration:none; font-weight:600; margin-left:1rem; }
+    .sale-banner { background:#f5c518; color:#111; text-align:center; padding:1rem 0; font-weight:bold; }
     .hero { text-align:center; padding:3rem 2rem; }
     .hero h1 { color:#f5c518; font-size:2.5rem; margin-bottom:0.5rem; }
     .hero p { color:#ccc; font-size:1.2rem; }
@@ -17,9 +18,9 @@
     .product { background:#1a1a1a; padding:1rem; border-radius:12px; text-align:center; }
     .product img { width:100%; border-radius:8px; }
     .product h3 { margin:0.5rem 0; }
-    .product p { color:#f5c518; margin:0.25rem 0; }
+    .product p.price { color:#f5c518; margin:0.25rem 0; }
+    .product p.stock { font-size:0.9rem; color:#ccc; margin-top:0.25rem; }
     .product button { margin-top:0.5rem; background:#f5c518; border:none; color:#111; font-weight:bold; padding:0.5rem 1rem; border-radius:6px; cursor:pointer; width:100%; }
-    .product .stock { font-size:0.9rem; color:#ccc; margin-top:0.25rem; }
     footer { background:#1a1a1a; padding:1rem 2rem; text-align:center; color:#888; font-size:0.9rem; border-top:1px solid #333; }
     footer a { color:#f5c518; text-decoration:none; font-weight:500; }
   </style>
@@ -33,9 +34,10 @@
       <a href="cart.html">Cart 🛒</a>
     </nav>
   </header>
+  <div class="sale-banner">FLASH SALE: 20% OFF SITEWIDE!</div>
   <section class="hero">
     <h1>Welcome to The Poké Vault</h1>
-    <p>Shop authentic Pokémon TCG sealed products. Now accepting PayPal & Bitcoin.</p>
+    <p>All Elite Trainer Boxes are 20% off for a limited time. Pay securely with Bitcoin or PayPal.</p>
   </section>
   <section id="products" class="products"></section>
   <footer>
@@ -44,7 +46,7 @@
   </footer>
 
   <script>
-    // Initial stock levels
+    const DISCOUNT = 0.20;
     const initialStock = {
       'Destined Rivals ETB': 20,
       'Prismatic Evolutions ETB': 20,
@@ -53,9 +55,7 @@
       'Iono Premium Tournament Collection': 20,
       'Obsidian Flames ETB': 20
     };
-    
-    // Reset stock after 24 hours
-    const STOCK_TTL = 2 * 60 * 1000; // 2 minutes in ms; // 24 hours in ms
+    const STOCK_TTL = 2 * 60 * 1000; // 2 minutes
     const now = Date.now();
     let stock = JSON.parse(localStorage.getItem('stock'));
     let timestamp = parseInt(localStorage.getItem('stockTimestamp'), 10);
@@ -76,34 +76,31 @@
 
     const container = document.getElementById('products');
     products.forEach(prod => {
+      const salePrice = (prod.price * (1 - DISCOUNT)).toFixed(2);
       const div = document.createElement('div'); div.className = 'product';
       div.innerHTML = `
         <img src="${prod.img}" alt="${prod.name}">
-        <h3>Scarlet & Violet: ${prod.name}</h3>
-        <p>$${prod.price} CAD</p>
+        <h3>${prod.name}</h3>
+        <p class="price"><span style="text-decoration:line-through;">$${prod.price} CAD</span> <strong>$${salePrice} CAD</strong></p>
         <p class="stock" id="stock-${prod.name}"></p>
         <button id="btn-${prod.name}">Add to Cart</button>
       `;
       container.appendChild(div);
       updateStockDisplay(prod.name);
-      document.getElementById(`btn-${prod.name}`).onclick = () => addToCart(prod.name, prod.price);
+      document.getElementById(`btn-${prod.name}`).onclick = () => addToCart(prod.name, parseFloat(salePrice));
     });
 
     function updateStockDisplay(name) {
       const count = stock[name] || 0;
-      const stockEl = document.getElementById(`stock-${name}`);
-      stockEl.textContent = `In Stock: ${count}`;
-      const btn = document.getElementById(`btn-${name}`);
-      btn.disabled = count < 1;
+      document.getElementById(`stock-${name}`).textContent = `In Stock: ${count}`;
+      document.getElementById(`btn-${name}`).disabled = count < 1;
     }
 
     function addToCart(name, price) {
       if (stock[name] < 1) return;
-      // decrement stock
-      stock[name] -= 1;
+      stock[name]--;
       localStorage.setItem('stock', JSON.stringify(stock));
       updateStockDisplay(name);
-      // add to cart
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart.push({ name, price });
       localStorage.setItem('cart', JSON.stringify(cart));
