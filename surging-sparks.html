@@ -4,59 +4,67 @@
 <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Surging Sparks ETB | The Poké Vault</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0f0f0f;--card:#1f1f1f;--accent:#f5c518;--sale:#d32f2f;--text:#e0e0e0;--radius:12px}
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.5;padding:2rem}
-header,footer{background:var(--card);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
-header a,footer a{color:var(--accent);text-decoration:none}
-.container{max-width:900px;margin:2rem auto}
-.title{font-family:'Cinzel',serif;font-size:2rem;color:var(--accent);margin-bottom:1rem}
-.main-img{width:100%;max-height:520px;object-fit:contain;border-radius:var(--radius);background:#111}
-.price{margin:1rem 0}
-.price .original{text-decoration:line-through;color:#888}
-.price .sale{color:var(--sale);font-weight:700}
-.btn{background:var(--accent);color:#111;padding:.75rem 1.5rem;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer}
-.section{background:var(--card);border-radius:var(--radius);padding:1rem;margin-top:1.25rem}
-.review{border-top:1px solid #333;padding:.75rem 0}
-.review:first-child{border-top:none}
-</style>
+<style>/* same styles as above */ :root{--bg:#0f0f0f;--card:#1f1f1f;--accent:#f5c518;--sale:#d32f2f;--text:#e0e0e0;--muted:#9a9a9a;--radius:12px}*{margin:0;padding:0;box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.6;padding:2rem}header,footer{background:var(--card);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}header a,footer a{color:var(--accent);text-decoration:none}.container{max-width:980px;margin:2rem auto}.title{font-family:'Cinzel',serif;font-size:2.25rem;color:var(--accent);margin-bottom:.25rem}.rating-summary{display:flex;align-items:center;gap:.5rem;color:var(--muted);margin-bottom:1rem}.star{font-size:1.05rem;color:#f5c518}.top{display:grid;grid-template-columns:1.1fr .9fr;gap:1.25rem}.main{background:#111;border-radius:var(--radius);padding:1rem;display:flex;align-items:center;justify-content:center}.main img{max-width:100%;max-height:520px;object-fit:contain}.thumbs{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}.thumbs img{height:90px;border-radius:8px;cursor:pointer;border:1px solid #333}.price{margin:.75rem 0}.price .original{text-decoration:line-through;color:#888;margin-right:.5rem}.price .sale{color:var(--sale);font-weight:700}.btn{background:var(--accent);color:#111;padding:.75rem 1.25rem;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer}.card{background:var(--card);border-radius:var(--radius);padding:1rem}.review{border-top:1px solid #333;padding:.75rem 0}.review:first-child{border-top:none}.back{margin-top:1.25rem;display:inline-block;color:var(--accent);text-decoration:none}.review-form{margin-top:1rem}.review-form input,.review-form textarea{width:100%;padding:.65rem;border-radius:8px;border:1px solid #333;background:#1b1b1b;color:var(--text);margin:.4rem 0}.review-form textarea{min-height:110px;resize:vertical}.stars-input{display:flex;flex-direction:row-reverse;justify-content:flex-end;gap:.25rem}.stars-input input{display:none}.stars-input label{cursor:pointer;font-size:1.25rem;color:#555}.stars-input input:checked ~ label,.stars-input label:hover,.stars-input label:hover ~ label{color:#f5c518}.helper{font-size:.85rem;color:var(--muted);margin-top:.25rem}</style>
 </head>
 <body>
-<header>
-  <a href="index.html"><img src="logo.png" alt="The Poké Vault" style="height:40px"></a>
-  <nav><a href="index.html">Home</a><a href="about.html">About</a><a href="cart.html">Cart</a></nav>
-</header>
-
+<header><a href="index.html"><img src="logo.png" alt="The Poké Vault" style="height:40px"></a><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="cart.html">Cart</a></nav></header>
 <div class="container">
   <h1 class="title">Surging Sparks Elite Trainer Box</h1>
-  <img id="mainImage" class="main-img" src="surging spa.jpg" alt="Surging Sparks ETB">
-
-  <div class="price">
-    <span class="original">$100 CAD</span>
-    <span class="sale" id="salePrice"></span>
+  <div class="rating-summary"><span id="avgStars"></span><span id="avgText"></span></div>
+  <div class="top">
+    <div>
+      <div class="main"><img id="mainImage" src="surging spa.jpg" alt="Surging Sparks ETB"></div>
+      <div class="thumbs">
+        <img src="surging spa.jpg" onclick="swap(this)" onerror="this.style.display='none'">
+        <img src="surging-contents.jpg" onclick="swap(this)" onerror="this.style.display='none'">
+        <img src="surging-packs.jpg" onclick="swap(this)" onerror="this.style.display='none'">
+        <img src="surging-sleeves.jpg" onclick="swap(this)" onerror="this.style.display='none'">
+      </div>
+    </div>
+    <div class="card">
+      <div class="price"><span class="original">$90 CAD</span> <span class="sale" id="salePrice"></span></div>
+      <button class="btn" onclick="addToCart('Surging Sparks ETB', sale)">Add to Cart</button>
+      <div class="card" style="margin-top:1rem">
+        <h3>What’s Inside</h3>
+        <ul><li>9 booster packs • 65 sleeves • 45 Energy</li><li>Dice, markers, storage box • code card</li></ul>
+      </div>
+    </div>
   </div>
-  <button class="btn" onclick="addToCart('Surging Sparks ETB', sale)">Add to Cart</button>
-
-  <div class="section">
-    <h3>Product Details</h3>
-    <p>Sealed ETB with booster packs, sleeves, Energy, dice & markers—built for collectors who love electric hits.</p>
-  </div>
-
-  <div class="section">
+  <div class="card" style="margin-top:1.25rem">
     <h3>Customer Reviews</h3>
-    <div class="review"><strong>A. Ruiz</strong> — ★★★★★<br>Great value during the sale.</div>
-    <div class="review"><strong>Tim</strong> — ★★★★☆<br>Shipped fast, packed well.</div>
+    <div id="reviewsList"></div>
+    <form id="reviewForm" class="review-form">
+      <h3 style="margin-top:.5rem">Write a review</h3>
+      <div class="stars-input">
+        <input type="radio" id="sstar5" name="rating" value="5"><label for="sstar5">★</label>
+        <input type="radio" id="sstar4" name="rating" value="4"><label for="sstar4">★</label>
+        <input type="radio" id="sstar3" name="rating" value="3"><label for="sstar3">★</label>
+        <input type="radio" id="sstar2" name="rating" value="2"><label for="sstar2">★</label>
+        <input type="radio" id="sstar1" name="rating" value="1" required><label for="sstar1">★</label>
+      </div>
+      <input type="text" id="revName" placeholder="Your name" required>
+      <textarea id="revText" placeholder="Share your experience…" required></textarea>
+      <button class="btn" type="submit">Submit review</button>
+      <div class="helper">Your review is stored on your device (local only).</div>
+    </form>
   </div>
+  <a class="back" href="index.html">← Back to Shop</a>
 </div>
-
 <footer>&copy; 2025 The Poké Vault • <a href="https://instagram.com/ThePokeVaultBtc">Instagram</a></footer>
-
 <script>
-  const DISCOUNT = 0.15;
-  const sale = Number((100 * (1 - DISCOUNT)).toFixed(2));
-  document.getElementById('salePrice').textContent = ' $' + sale.toFixed(2) + ' CAD';
-  function addToCart(name, price){let c=JSON.parse(localStorage.getItem('cart'))||[];c.push({name,price});localStorage.setItem('cart',JSON.stringify(c));alert(name+' added to cart');}
+const DISCOUNT=0.15, BASE_PRICE=90;
+const sale=Number((BASE_PRICE*(1-DISCOUNT)).toFixed(2));
+document.getElementById('salePrice').textContent=' $'+sale.toFixed(2)+' CAD';
+function swap(el){document.getElementById('mainImage').src=el.src;}
+function addToCart(name,price){let c=JSON.parse(localStorage.getItem('cart'))||[];c.push({name,price});localStorage.setItem('cart',JSON.stringify(c));alert(name+' added to cart');}
+const PRODUCT_KEY='reviews:surging-sparks-etb';
+const seeded=[{name:'A. Ruiz',rating:5,text:'Sale price is awesome—packed perfectly.',date:'2025-01-18'},{name:'Tim',rating:4,text:'Shipping was fast, box in mint shape.',date:'2025-02-05'},{name:'Jess',rating:5,text:'Great pulls, will order again.',date:'2025-02-22'}];
+function loadReviews(){const s=JSON.parse(localStorage.getItem(PRODUCT_KEY)||'[]');return s.length?s:seeded;}
+function saveReviews(l){localStorage.setItem(PRODUCT_KEY,JSON.stringify(l));}
+function starString(n){return `<span class="star">${'★'.repeat(n)}${'☆'.repeat(5-n)}</span>`;}
+function renderReviews(){const l=loadReviews();const box=document.getElementById('reviewsList');box.innerHTML=l.map(r=>`<div class="review"><div>${starString(r.rating)} <strong>${r.name}</strong> <span style="color:#9a9a9a">— ${new Date(r.date).toLocaleDateString()}</span></div><div>${r.text}</div></div>`).join('')||'<p style="color:#9a9a9a">No reviews yet — be the first!</p>';const avg=l.length?(l.reduce((a,b)=>a+b.rating,0)/l.length):0;document.getElementById('avgStars').innerHTML=starString(Math.round(avg));document.getElementById('avgText').textContent=l.length?`${avg.toFixed(1)} (${l.length} reviews)`:'No reviews yet';}
+document.getElementById('reviewForm').addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('revName').value.trim(),text=document.getElementById('revText').value.trim(),rating=Number((document.querySelector('input[name="rating"]:checked')||{}).value||0);if(!name||!text||!rating){alert('Please add your name, rating and review.');return;}const l=loadReviews();l.unshift({name,rating,text,date:new Date().toISOString().slice(0,10)});saveReviews(l);e.target.reset();renderReviews();alert('Thanks for your review!');});
+renderReviews();
 </script>
 </body>
 </html>
