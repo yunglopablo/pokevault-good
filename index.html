@@ -14,29 +14,25 @@
     nav a{color:var(--text);margin-left:1rem;text-decoration:none;font-weight:500;transition:color .3s;}
     nav a:hover{color:var(--accent);}
     .sale-banner{background:var(--sale);color:#fff;text-align:center;padding:1rem;font-weight:700;}
-    .hero{position:relative;text-align:center;padding:6rem 2rem;background:url('banner-promo.jpg')center/cover no-repeat;}
+    .hero{position:relative;text-align:center;padding:6rem 2rem;background:url('banner-promo.jpg') center/cover no-repeat;}
     .hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.6);}
     .hero-content{position:relative;z-index:1;max-width:600px;margin:auto}
     .hero h1{font-family:'Cinzel',serif;font-size:3rem;color:var(--accent);margin-bottom:.5rem;}
     .hero p{opacity:.8;margin-bottom:1rem;}
     .hero a{background:var(--accent);color:#111;padding:.75rem 1.5rem;border-radius:var(--radius);font-weight:700;text-decoration:none;transition:background .3s;}
     .hero a:hover{background:var(--secondary);}
-    .search-sort{display:flex;justify-content:center;gap:1rem;padding:1rem;background:var(--card);flex-wrap:wrap;}
-    .search-sort input,.search-sort select{padding:.5rem;border-radius:var(--radius);border:none;background:#333;color:var(--text);transition:box-shadow .3s;}
-    .search-sort input:focus,.search-sort select:focus{outline:none;box-shadow:0 0 0 2px var(--secondary);}
-    .filters{display:flex;gap:1rem;justify-content:center;padding:1rem;background:var(--card);flex-wrap:wrap;}
-    .filters select{padding:.5rem;border-radius:var(--radius);border:none;background:#333;color:var(--text);}
     .products{padding:2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;}
     .product{position:relative;background:var(--card);border-radius:var(--radius);overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.5);transition:transform .3s ease,box-shadow .3s ease;}
     .product:hover{transform:translateY(-10px);box-shadow:0 8px 16px rgba(0,0,0,.7);}
     .product img{width:100%;height:200px;object-fit:cover;}
-    .buy-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;}
+    /* Buy Now overlay */
+    .buy-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;pointer-events:none;}
     .product:hover .buy-overlay{opacity:1;}
-    .buy-overlay .buy-btn{background:var(--accent);border:none;padding:.75rem 1.5rem;border-radius:var(--radius);font-weight:700;color:#111;cursor:pointer;transition:background .2s,transform .2s;}
+    .buy-overlay .buy-btn{background:var(--accent);border:none;padding:.75rem 1.5rem;border-radius:var(--radius);font-weight:700;color:#111;cursor:pointer;transition:background .2s,transform .2s;pointer-events:auto;}
     .buy-overlay .buy-btn:hover{transform:scale(1.05);background:var(--secondary);}
-    .product-info{padding:1rem;}
+    .product-info{padding:1rem;display:block;text-decoration:none;color:inherit;}
     .product-info h4{font-family:'Cinzel',serif;margin-bottom:.5rem;color:var(--accent);}
-    .product-info p{margin-bottom:.5rem;}
+    .product-info p{margin-bottom:.25rem;}
     .product-info p.original{text-decoration:line-through;color:#888;}
     .product-info p.sale{color:var(--sale);font-weight:700;}
     #load-more{display:block;margin:2rem auto;background:var(--accent);color:#111;border:none;padding:.75rem 2rem;border-radius:var(--radius);font-weight:700;cursor:pointer;transition:background .3s;}
@@ -44,6 +40,7 @@
     footer{background:var(--card);padding:2rem;text-align:center;font-size:.9rem;color:var(--text);}
     footer a{color:var(--accent);text-decoration:none;transition:color .3s;}
     footer a:hover{color:var(--secondary);}
+    .card-link{display:block;text-decoration:none;color:inherit;}
   </style>
 </head>
 <body>
@@ -51,7 +48,9 @@
     <img src="logo.png" alt="The Poké Vault Logo">
     <nav><a href="#products">Shop</a><a href="about.html">About</a><a href="cart.html">Cart</a></nav>
   </header>
+
   <div class="sale-banner">15% OFF SITEWIDE – Limited Time!</div>
+
   <section class="hero">
     <div class="hero-content">
       <h1>Elite Trainer Boxes Collection</h1>
@@ -59,43 +58,60 @@
       <a href="#products">Browse Collection</a>
     </div>
   </section>
-  <div class="search-sort">
-    <input type="text" id="search-input" placeholder="Search products…">
-    <select id="sort-select">
-      <option value="default">Sort By</option>
-      <option value="price-asc">Price: Low → High</option>
-      <option value="price-desc">Price: High → Low</option>
-      <option value="name-asc">Name: A → Z</option>
-      <option value="name-desc">Name: Z → A</option>
-    </select>
-  </div>
-  <div class="filters">
-    <select id="filter-set">
-      <option value="all">All Sets</option>
-      <option value="Destined Rivals ETB">Destined Rivals</option>
-      <option value="Prismatic Evolutions ETB">Prismatic Evolutions</option>
-      <option value="Surging Sparks ETB">Surging Sparks</option>
-      <option value="White Flare ETB">White Flare</option>
-      <option value="Iono Premium Tournament Collection">Iono Premium</option>
-      <option value="Obsidian Flames ETB">Obsidian Flames</option>
-    </select>
-    <select id="filter-price">
-      <option value="all">All Prices</option>
-      <option value="0-50">Under $50</option>
-      <option value="50-100">$50–$100</option>
-      <option value="100-200">Over $100</option>
-    </select>
-  </div>
+
   <section id="products" class="products"></section>
   <button id="load-more">Load More</button>
+
   <footer>&copy; 2025 The Poké Vault. Follow us on <a href="https://instagram.com/ThePokeVaultBtc">Instagram</a>.</footer>
+
   <script>
-    const DISCOUNT=0.15;
-    const products=[{name:'Destined Rivals ETB',price:100,img:'destine.jpg'},{name:'Prismatic Evolutions ETB',price:120,img:'prismatic.jpg'},{name:'Surging Sparks ETB',price:100,img:'surging spa.jpg'},{name:'White Flare ETB',price:85,img:'pokemoin white.jpg'},{name:'Iono Premium Tournament Collection',price:55,img:'iono.jpg'},{name:'Obsidian Flames ETB',price:100,img:'char.jpg'}];
-    let shown=0,pageSize=4;
-    const container=document.getElementById('products');
-    function renderBatch(list=products){const batch=list.slice(shown,shown+pageSize);batch.forEach(p=>{const sale=(p.price*(1-DISCOUNT)).toFixed(2);const d=document.createElement('div');d.className='product';d.innerHTML=`<img src="${p.img}" alt="${p.name}"><div class="buy-overlay"><button class="buy-btn" onclick="addToCart('${p.name}',${sale})">Buy Now</button></div><div class="product-info"><h4>${p.name}</h4><p class="original">$${p.price} CAD</p><p class="sale">$${sale} CAD</p></div>`;container.appendChild(d);});shown+=batch.length;if(shown>=products.length)document.getElementById('load-more').style.display='none';}
-    function applyFilters(){const term=document.getElementById('search-input').value.toLowerCase(),sort=document.getElementById('sort-select').value,[min,max]=document.getElementById('filter-price').value.split('-').map(Number),setVal=document.getElementById('filter-set').value;let filtered=products.filter(p=>p.name.toLowerCase().includes(term));if(setVal!=='all')filtered=filtered.filter(p=>p.name===setVal);if(!isNaN(min))filtered=filtered.filter(p=>p.price>=min&&p.price<=(max||Infinity));if(sort==='price-asc')filtered.sort((a,b)=>a.price-b.price);if(sort==='price-desc')filtered.sort((a,b)=>b.price-a.price);if(sort==='name-asc')filtered.sort((a,b)=>a.name.localeCompare(b.name));if(sort==='name-desc')filtered.sort((a,b)=>b.name.localeCompare(a.name));container.innerHTML='';shown=0;document.getElementById('load-more').style.display='none';renderBatch(filtered);}document.getElementById('load-more').onclick=()=>renderBatch();document.getElementById('search-input').oninput=applyFilters;document.getElementById('sort-select').onchange=applyFilters;document.getElementById('filter-set').onchange=applyFilters;document.getElementById('filter-price').onchange=applyFilters;function addToCart(n,p){let c=JSON.parse(localStorage.getItem('cart'))||[];c.push({name:n,price:p});localStorage.setItem('cart',JSON.stringify(c));alert(n+' added to cart');}renderBatch();
+    const DISCOUNT = 0.15;
+    const products = [
+      {name:'Destined Rivals ETB', price:100, img:'destine.jpg', slug:'destined-rivals.html'},
+      {name:'Prismatic Evolutions ETB', price:120, img:'prismatic.jpg', slug:'prismatic-evolutions.html'},
+      {name:'Surging Sparks ETB', price:100, img:'surging spa.jpg', slug:'surging-sparks.html'},
+      {name:'White Flare ETB', price:85, img:'pokemoin white.jpg', slug:'white-flare.html'},
+      {name:'Iono Premium Tournament Collection', price:55, img:'iono.jpg', slug:'iono-premium.html'},
+      {name:'Obsidian Flames ETB', price:100, img:'char.jpg', slug:'obsidian-flames.html'}
+    ];
+
+    let shown = 0, pageSize = 4;
+    const container = document.getElementById('products');
+
+    function renderBatch(list = products) {
+      const batch = list.slice(shown, shown + pageSize);
+      batch.forEach(p => {
+        const sale = Number((p.price * (1 - DISCOUNT)).toFixed(2));
+        const d = document.createElement('div');
+        d.className = 'product';
+        d.innerHTML = `
+          <a class="card-link" href="${p.slug}">
+            <img src="${p.img}" alt="${p.name}">
+            <div class="product-info">
+              <h4>${p.name}</h4>
+              <p class="original">$${p.price} CAD</p>
+              <p class="sale">$${sale.toFixed(2)} CAD</p>
+            </div>
+          </a>
+          <div class="buy-overlay">
+            <button class="buy-btn" onclick="addToCart('${p.name}', ${sale}); event.stopPropagation();">Buy Now</button>
+          </div>`;
+        container.appendChild(d);
+      });
+      shown += batch.length;
+      if (shown >= products.length) document.getElementById('load-more').style.display = 'none';
+    }
+
+    document.getElementById('load-more').onclick = () => renderBatch();
+
+    function addToCart(n, p) {
+      let c = JSON.parse(localStorage.getItem('cart')) || [];
+      c.push({ name: n, price: p });
+      localStorage.setItem('cart', JSON.stringify(c));
+      alert(n + ' added to cart');
+    }
+
+    renderBatch();
   </script>
 </body>
 </html>

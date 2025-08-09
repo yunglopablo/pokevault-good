@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>White Flare ETB | The Poké Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f0f0f;--card:#1f1f1f;--accent:#f5c518;--sale:#d32f2f;--text:#e0e0e0;--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.5;padding:2rem}
+header,footer{background:var(--card);padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center}
+header a,footer a{color:var(--accent);text-decoration:none}
+.container{max-width:900px;margin:2rem auto}
+.title{font-family:'Cinzel',serif;font-size:2rem;color:var(--accent);margin-bottom:1rem}
+.main-img{width:100%;max-height:520px;object-fit:contain;border-radius:var(--radius);background:#111}
+.price{margin:1rem 0}
+.price .original{text-decoration:line-through;color:#888}
+.price .sale{color:var(--sale);font-weight:700}
+.btn{background:var(--accent);color:#111;padding:.75rem 1.5rem;border:none;border-radius:var(--radius);font-weight:700;cursor:pointer}
+.section{background:var(--card);border-radius:var(--radius);padding:1rem;margin-top:1.25rem}
+.review{border-top:1px solid #333;padding:.75rem 0}
+.review:first-child{border-top:none}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html"><img src="logo.png" alt="The Poké Vault" style="height:40px"></a>
+  <nav><a href="index.html">Home</a><a href="about.html">About</a><a href="cart.html">Cart</a></nav>
+</header>
+
+<div class="container">
+  <h1 class="title">White Flare Elite Trainer Box</h1>
+  <img id="mainImage" class="main-img" src="pokemoin white.jpg" alt="White Flare ETB">
+
+  <div class="price">
+    <span class="original">$85 CAD</span>
+    <span class="sale" id="salePrice"></span>
+  </div>
+  <button class="btn" onclick="addToCart('White Flare ETB', sale)">Add to Cart</button>
+
+  <div class="section">
+    <h3>Product Details</h3>
+    <p>Sealed ETB with boosters, sleeves, Energy, dice & markers—fiery art and collector-friendly contents.</p>
+  </div>
+
+  <div class="section">
+    <h3>Customer Reviews</h3>
+    <div class="review"><strong>K. Patel</strong> — ★★★★★<br>Box art is gorgeous, shipped same day.</div>
+  </div>
+</div>
+
+<footer>&copy; 2025 The Poké Vault • <a href="https://instagram.com/ThePokeVaultBtc">Instagram</a></footer>
+
+<script>
+  const DISCOUNT = 0.15;
+  const sale = Number((85 * (1 - DISCOUNT)).toFixed(2));
+  document.getElementById('salePrice').textContent = ' $' + sale.toFixed(2) + ' CAD';
+  function addToCart(name, price){let c=JSON.parse(localStorage.getItem('cart'))||[];c.push({name,price});localStorage.setItem('cart',JSON.stringify(c));alert(name+' added to cart');}
+</script>
+</body>
+</html>
